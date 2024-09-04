@@ -1,1 +1,13 @@
-fastapi[all]
+fastapi
+uvicorn
+pydantic
+numpy
+scikit-learn
+tensorflow
+asyncio
+requests
+pillow
+pypi-json
+python-multipart
+opencv-python
+asyncio
