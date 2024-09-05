@@ -50,6 +50,10 @@ def preprocess_image(image_bytes):
 async def health_check():
     return "The health check is successful!"
 
+@app.get("/health")
+async def health_check():
+    return "The health check is successful!"
+
 # Define the prediction endpoint
 @app.post("/predict/")
 async def predict_image(file: UploadFile = File(...)):
