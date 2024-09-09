@@ -65,12 +65,20 @@ async def predict_image(file: UploadFile = File(...)):
     preprocessed_image = preprocess_image(image_bytes)
     
     # Make predictions
-    predictions = model.predict(preprocessed_image)
-    predicted_class_index = np.argmax(predictions[0])
+    predictions = model.predict(preprocessed_image)[0]  # Get the first prediction
+
+    # Get the index of the predicted class
+    predicted_class_index = np.argmax(predictions)
     predicted_class_name = CLASS_TYPES[predicted_class_index]
     
-    # Return the predicted class name
-    return JSONResponse(content={"predicted_class": predicted_class_name})
+    # Convert probabilities to percentages and associate them with class names
+    class_probabilities = {CLASS_TYPES[i]: float(predictions[i] * 100) for i in range(len(CLASS_TYPES))}
+    
+    # Return both the predicted class and the probabilities
+    return JSONResponse(content={
+        "predicted_class": predicted_class_name,
+        "class_probabilities": class_probabilities  # Probabilities for all classes
+    })
 
 # Run the app using `uvicorn` if executed directly
 if __name__ == "__main__":
